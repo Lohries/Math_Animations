@@ -2,7 +2,7 @@ from manim import *
 from pydub import AudioSegment
 from pydub.playback import play
 
-class IntroText(ThreeDScene):
+class IntroText(Scene):
     def construct(self):
         
         #Intro
@@ -37,20 +37,23 @@ class IntroText(ThreeDScene):
         Poincare_author.next_to(author, UP, buff=0.5)  
         
         #Graphs 
-        axes = ThreeDAxes(
+        axes = Axes(
             x_range= [-6, 6, 1],
-            y_range= [-6, 6, 1],
-            z_range= [-6, 6, 1],
-            x_length= 8,
+            y_range= [-5, 5, 1],
+
+            x_length= 6,
             y_length= 6,
-            z_length= 5
+            
+            axis_config={"color": WHITE}
+
         )
         
-        graph = ParametricFunction(
-            lambda t: axes.c2p(t, t**2, 0),
-            t_range=[-2, 2],
-            color=YELLOW
-        )
+        labels = axes.get_axis_labels(x_label="x", y_label="y")
+        solution1 = axes.plot(lambda x: 0, color=BLUE )
+        solution2 = axes.plot(lambda x: 1, color=BLUE )
+        point = Dot(axes.c2p(0.5, 0.5), color=RED)
+        
+
         
         #Fundamentals 
         definition = Text("In mathematics, a differential equation is an equation that relates one or more unknown functions and their derivatives. In applications, the functions generally represent physical quantities, the derivatives represent their rates of change, and the differential equation defines a relationship between the two.", font_size=100).scale_to_fit_width(config.frame_width - 1)
@@ -95,7 +98,7 @@ class IntroText(ThreeDScene):
         
         
         #Solutions
-        qualitative = Text("So let's put this in practise. First we gonna analyze an equation seeing through this new vision.", font_size=100).scale_to_fit_width(config.frame_width-1)
+        qualitative = Text("So let's put this in practise. First we gonna analyze an equation seeing through the old vision and then the new vision.", font_size=100).scale_to_fit_width(config.frame_width-1)
         qualitative.move_to(UP*3.5)
         eq_q1 = MathTex(r"x' = x(x-1)")
 
@@ -137,11 +140,21 @@ class IntroText(ThreeDScene):
         eq_q10.next_to(eq_q9, DOWN)
         
         
-        eq_q11 = MathTex(r"x = \frac{Ce^y}{1 + Ce^y}")
+        eq_q11 = MathTex(r"x = {Ce^y}({x - 1})")
         eq_q11.next_to(eq_q10, DOWN)
         
+        eq_q12 = MathTex(r"y = \ln \left( \frac{x}{x-1} \right) - \ln(C)")
+        eq_q12.move_to(ORIGIN)
+        
+        eq_q13 = MathTex(r"y = \ln \left( \frac{x}{C(x-1)} \right)")
+        eq_q13.next_to(eq_q12, DOWN)
         
 
+        new_vision = Text("Qualitative Analyses")
+        new_vision.move_to(UP*3.5)
+        nw = MathTex(r"x' = x(x-1)")
+        nw_v = MathTex(r"x = 0, \, F(y, 0) = 0, \, y(x) = 0 \, \text{é solução}").next_to(nw, DOWN)
+        nw_v2 = MathTex(r"x = 1, \, F(y, 1) = 1, \, y(x) = 1 \, \text{é solução}").next_to(nw_v, DOWN)
         
         
         
@@ -238,7 +251,24 @@ class IntroText(ThreeDScene):
         self.play(Write(eq_q10))
         self.wait(3)
         self.play(Write(eq_q11))
+        self.wait(3)
+        self.wait(2)
         self.play(FadeOut(eq_q7, eq_q8, eq_q9, eq_q10, eq_q11))
+        self.wait(2)
+        self.play(Write(eq_q12))
+        self.wait(3)
+        self.play(Write(eq_q13))
+        self.play(FadeOut(eq_q12, eq_q13))
+        
+        self.play(Write(new_vision))
+        self.play(Write(nw))
+        self.play(Write(nw_v))
+        self.play(Write(nw_v2))
+        self.wait(5)
+        
+        self.play(FadeOut(new_vision, nw, nw_v, nw_v2))
+        self.play(Write(axes), Write(labels), Write(solution1), Write(solution2), Write(point))
+        self.wait(4)
   
         
  
