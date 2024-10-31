@@ -52,6 +52,9 @@ class IntroText(Scene):
         solution1 = axes.plot(lambda x: 0, color=BLUE )
         solution2 = axes.plot(lambda x: 1, color=BLUE )
         point = Dot(axes.c2p(0.5, 0.5), color=RED)
+        general = Text("Point (x0, y0)", font_size=25).next_to(point, RIGHT)
+        generic_solution = axes.plot(lambda x: 1-x, color=RED, x_range=[0.25, 0.75, 1])
+        
         
 
         
@@ -153,10 +156,22 @@ class IntroText(Scene):
         new_vision = Text("Qualitative Analyses")
         new_vision.move_to(UP*3.5)
         nw = MathTex(r"x' = x(x-1)")
-        nw_v = MathTex(r"x = 0, \, F(y, 0) = 0, \, y(x) = 0 \, \text{é solução}").next_to(nw, DOWN)
-        nw_v2 = MathTex(r"x = 1, \, F(y, 1) = 1, \, y(x) = 1 \, \text{é solução}").next_to(nw_v, DOWN)
+        nw_v = MathTex(r"x = 0, \, F(y, 0) = 0, \, y(x) = 0 \, \text{is a solution}").next_to(nw, DOWN)
+        nw_v2 = MathTex(r"x = 1, \, F(y, 1) = 1, \, y(x) = 1 \, \text{is a solution}").next_to(nw_v, DOWN)
         
         
+        
+        #Conclusion
+        first_interval = Text("In the interval 0<x<1 we have F(x, y) < 0", color=RED)
+        derivative_fisrt_interval = Text("Taking the derivative, we can see that x' < 0", color=BLUE)
+        final_conclusion = Text("We can now prove that whenever the solution is x within the interval (0, 1), it will be descending.").scale_to_fit_width(config.frame_width-1)
+        looking_tendecies = Text("Now with the other points, we can see that the points inside of the interval tends to converge to 0 and the externals to the interval tends to 0 or 1, relative if they are right from the interval or left", color=GREEN, font_size=80).scale_to_fit_width(config.frame_width-1)
+        looking_tendecies.move_to(DOWN)
+
+        
+        
+        first_interval.move_to(UP*3.0)
+        derivative_fisrt_interval.next_to(first_interval, DOWN)
         
         
         # Animações
@@ -267,8 +282,17 @@ class IntroText(Scene):
         self.wait(5)
         
         self.play(FadeOut(new_vision, nw, nw_v, nw_v2))
-        self.play(Write(axes), Write(labels), Write(solution1), Write(solution2), Write(point))
+        self.play(Write(axes), Write(labels), Write(solution1), Write(solution2), Write(point), Write(general), Write(generic_solution))
         self.wait(4)
+        self.play(FadeOut(axes, labels, solution1, solution2,  point, general, generic_solution))
+        self.wait(2)
+        self.play(Write(first_interval), Write(derivative_fisrt_interval))
+        self.wait(4)
+        self.play(Write(final_conclusion))
+        self.wait(4)
+        self.play(Write(looking_tendecies))
+        self.wait(4)
+  
   
         
  
