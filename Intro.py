@@ -185,11 +185,11 @@ class IntroText(Scene):
         self.wait(5)
         
         self.play(FadeIn(image_author))  
-        self.wait(5)
+        self.wait(8)
         self.play(FadeOut(author))
         self.play(FadeOut(image_author))
         self.play(Write(description))
-        self.wait(5)
+        self.wait(8)
         self.play(FadeOut(description))
         #self.set_camera_orientation(phi=75 * DEGREES, theta=30 * DEGREES) #phi - inclina theta - gira gamma - rotaciona
         #self.wait(2)
@@ -199,7 +199,7 @@ class IntroText(Scene):
 
         #self.move_camera(phi=0 * DEGREES, theta=0 * DEGREES, gamma=90 * DEGREES, run_time=2)
         self.play(Write(definition))
-        self.wait(3)
+        self.wait(5)
         self.play(FadeOut(definition))
         
         self.play(Write(equation))
